@@ -2,6 +2,8 @@
 
 var express = require('express');
 var app = express();
+var bodyParser = require('body-parser');
+app.use(bodyParser.json());
 
 var bikes = [
   {id: 1, name: 'Lapierre', price: '2499', country: 'FR', },
@@ -21,3 +23,42 @@ app.get('/bikes', function(req, res) {
 app.listen(3000, function () {
   console.log('Express challenge app listening on port 3000, check http://localhost:3000');
 });
+
+app.get('/bikes/:id', function(req, res) {
+  for(var i = 0 ; i < bikes.length ;i++){
+    if (bikes[i].id == req.params.id) {
+      return res.status(200).json(bikes[i]);
+    }
+  }
+});
+
+app.get('/bikes/country/:country', function(req, res) {
+  var  result = [];
+  for(var i = 0 ; i < bikes.length ;i++){
+    if (bikes[i].country == req.params.country) {
+      result.push(bikes[i]);
+    }
+  }
+  return res.status(200).json(result);
+});
+
+  app.delete('/delete/:id', function(req, res){
+    for(var i = 0 ; i < bikes.length ;i++){
+      if (bikes[i].id == req.params.id) {
+       bikes.splice(i,1);
+      }
+    }
+    return res.status(200).json(bikes);
+  });
+  
+  app.get('/bikesDollars', function(req, res){
+   for(var i = 0 ; i < bikes.length ;i++){
+      bikes[i].price =  parseFloat(bikes[i].price) * 0.75 ;
+    }
+    return res.status(200).json(bikes);
+  });
+  
+  app.put('/addBike', function(req, res){
+    bikes[bikes.length] = req.body;
+    return res.status(200).json(bikes);
+  });

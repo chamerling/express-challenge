@@ -26,7 +26,7 @@ var getBikeByCountry = function(country){
 	var tabRes=[];
 	tabRes = _.filter(bikes, function(obj) {
 	return obj.country.toUpperCase() == country.toUpperCase()}) //j'ai cherché est j'ai trouvé une library
-   																//underscore qui offre des methodes utiles
+   									//underscore qui offre des methodes utiles
 	return tabRes;															  
 };
 
@@ -60,20 +60,25 @@ var bikeExiste = function (id,callback)
 function convertJsonsFiel(jsons)
 {
 	var l = jsons.length;
-
+	var t = Object.create(jsons); //pour créer un autre obj
 	for(var i=0;i<l;i++)
 	{
-	jsons[i].price = jsons[i].price * 1.122;
-	console.log(jsons[i].price);
+	/*this.jsons[i].price = jsons[i].price * 1.122;
+	console.log(jsons[i].price);*/
+	t[i] = convertJsonFiel(jsons[i]);
 	}
-	return jsons;
+	return t;
 }
 
 
-function convertJsonFiel(json)
+function convertJsonFiel(json) //j'ai joué sur la création d'un nouveau obj pour que le tableau initiale ne change pas!
 {
-	json.price = json.price * 1.122;
-	return json;
+	var obj = Object.create(json);
+	obj.id=json.id;
+	obj.name=json.name;
+	obj.price = json.price * 1.122;
+	obj.country=json.country;
+	return obj;
 }
 
 
@@ -86,9 +91,9 @@ function Bike(id,name,price,country)
 }
 
 
+/*ici je prend le max de l'id, aprés nous pouvons ajouter une fonction qui permet de chercher les trous dans la suite des ID*/
 function getId()
 {
-
 	var maxId = 0;
 	for (var i = 0; i<bikes.length ; i++) {
 		if (bikes[i].id > maxId)

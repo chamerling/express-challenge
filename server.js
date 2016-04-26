@@ -19,7 +19,15 @@ app.get('/', function (req, res) {
 });
 
 app.get('/bikes', function(req, res) {
-  return res.status(200).json(myMethods.convertJsonsFiel(myMethods.bikes));
+
+	if(typeof req.query.price != 'undefined')
+			{
+				if (req.query.price.toUpperCase() == "US")
+				{
+  					return res.status(200).json((myMethods.convertJsonsFiel(myMethods.bikes)));
+				}
+			}
+	return res.status(200).json((myMethods.bikes));
 });
 
 app.listen(3000, function () {
@@ -36,7 +44,14 @@ app.get('/bike/:id', function(req, res) {
 		}
 		else
 		{
-		return res.status(200).json(myMethods.convertJsonFiel(bike)); // nous pouvons utilisé .send	
+			if(typeof req.query.price != 'undefined')
+			{
+				if (req.query.price.toUpperCase() == "US")
+				{
+					return res.status(200).json(myMethods.convertJsonFiel(bike));
+				}
+			}
+		return res.status(200).json(bike); // nous pouvons utilisé .send	
 		}
 	});
 
@@ -44,12 +59,21 @@ app.get('/bike/:id', function(req, res) {
 
 //bikes with params
 app.get('/bikec/', function(req, res) {
-	console.log(req.query.country);
-
-	var tab = myMethods.getBikeByCountry(req.query.country);
 	
-	if((req.query.p).toUpperCase() == 'US'){
-		tab = myMethods.convertJsonsFiel(tab);
+	//console.log(req.query.country);
+	//console.log(req.query.price);
+
+	if(typeof req.query.country != 'undefined')
+	var tab = myMethods.getBikeByCountry(req.query.country);
+
+	
+	if(typeof req.query.price != 'undefined')
+	{
+		console.log("defined!");
+		if (req.query.price.toUpperCase() == "US")
+		{
+		return res.status(200).json(myMethods.convertJsonsFiel(tab)); //on fait la conversion puisque la query params est US 
+		}
 	}
 
   	return res.status(200).json(tab);

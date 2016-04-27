@@ -44,18 +44,24 @@ app.get('/', function (req, res) {
 // Challenge 2: The query parameter added to the '/bikes?country=<value>'
 app.get('/bikes', function(req, res) {
   var country = req.query.country;
-  var filteredBikes = bikes.filter(function(bike) {return country !== undefined && bike.country === country.toUpperCase()});
+  var filteredBikes = bikes.filter(function(bike) {
+    return country !== undefined && bike.country === country.toUpperCase()
+  });
   return res.status(200).json(filteredBikes);
 });
 
 //Challenge 1: Adding new route to get a single bike by calling its id
 app.get('/bikes/:id', function(req, res) {
-  for(var i = 0; i < bikes.length; i++) {
-    if(bikes[i] && bikes[i]['id'] == req.params.id) {
-      return res.json(bikes[i].toDollar());
-    }
+  var id = parseInt(req.params.id);
+  var bikeById = bikes.filter(function(bike) {
+    return bike.id === id;
+  });
+  if(bikeById.length < 1) {
+    return res.status(404).send('No bike with the id: ' + id)
   }
-  return res.status(404).json('No bike with the id ' + req.params.id);
+  else {
+    return res.status(200).json(bikeById[0]);
+  }
 });
 
 // challenge 3: Deleting a bike from the database

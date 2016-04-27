@@ -20,7 +20,7 @@ Bike.prototype = {
     constructor: Bike,
     toDollar:function ()  {
       var price;
-      if(this.country == 'FR') {
+      if(this.country === 'FR') {
         price = (this.price * 1.12249).toString();
         return {id: this.id, name: this.name, price: price, country: this.country};
     } else {
@@ -47,7 +47,11 @@ app.get('/bikes', function(req, res) {
   var filteredBikes = bikes.filter(function(bike) {
     return country !== undefined && bike.country === country.toUpperCase()
   });
-  return res.status(200).json(filteredBikes);
+  if(country) {
+    return res.status(200).json(filteredBikes);
+  } else {
+    return res.status(200).json(bikes);
+  }
 });
 
 //Challenge 1: Adding new route to get a single bike by calling its id

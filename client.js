@@ -8,7 +8,7 @@ var request = require('request');
 exports.createBike = function (bikeArray, newBike) {
   request({
     url: 'http://localhost:3000/bikes',
-    method: 'GET',
+    method: 'PUT',
     json: newBike
   }, function callback(error, response, body) {
     if(error) {

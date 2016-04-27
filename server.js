@@ -44,21 +44,26 @@ app.get('/', function (req, res) {
 // Challenge 2: The query parameter added to the '/bikes?country=<value>'
 app.get('/bikes', function(req, res) {
   var country = req.query.country;
-  if(country){
-    var bikesByCountry = [];
-    for(var i = 0; i < bikes.length; i ++) {
-      if(country.toUpperCase() == bikes[i]['country']) {
-        bikesByCountry.push(bikes[i].toDollar());
-      }
-    }
-    return res.json(bikesByCountry);
-  } else {
-    var result = [];
-    for(var i = 0; i < bikes.length; i ++) {
-      result.push(bikes[i].toDollar());
-    }
-    return res.status(200).json(result);
+  var filteredBikes = bikes.filter(function(bike) {return bike.country === req.query.country.toUpperCase()});
+  if (filteredBikes.length === 0) {
+    return res.status(200).json(bikes)
   }
+  return res.status(200).json(filteredBikes);
+  // if(country){
+  //   var bikesByCountry = [];
+  //   for(var i = 0; i < bikes.length; i ++) {
+  //     if(country.toUpperCase() == bikes[i]['country']) {
+  //       bikesByCountry.push(bikes[i].toDollar());
+  //     }
+  //   }
+  //   return res.json(bikesByCountry);
+  // } else {
+  //   var result = [];
+  //   for(var i = 0; i < bikes.length; i ++) {
+  //     result.push(bikes[i].toDollar());
+  //   }
+  //   return res.status(200).json(result);
+  // }
 });
 
 //Challenge 1: Adding new route to get a single bike by calling its id

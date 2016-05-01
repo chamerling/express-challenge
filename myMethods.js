@@ -21,13 +21,22 @@ var getBikeById = function(id,callback) {
 		return callback(new Error('No bike matching '+ id));
 };
 
-
+/*
 var getBikeByCountry = function(country){
 	var tabRes=[];
 	tabRes = _.filter(bikes, function(obj) {
 	return obj.country.toUpperCase() == country.toUpperCase()}) //j'ai cherché est j'ai trouvé une library
    									//underscore qui offre des methodes utiles
 	return tabRes;															  
+};
+*/
+
+var getBikeByCountry = function(country){
+	var tabRes=[];
+	tabRes = bikes.filter(function(obj) {
+	return obj.country.toUpperCase() == country.toUpperCase()}) //j'ai cherché est j'ai trouvé une library
+   									//underscore qui offre des methodes utiles
+	return tabRes;												  
 };
 
 
@@ -56,20 +65,18 @@ var bikeExiste = function (id,callback)
 	});
 }
 
-
+/*
 function convertJsonsFiel(jsons)
 {
 	var l = jsons.length;
 	var t = Object.create(jsons); //pour créer un autre obj
 	for(var i=0;i<l;i++)
 	{
-	/*this.jsons[i].price = jsons[i].price * 1.122;
-	console.log(jsons[i].price);*/
 	t[i] = convertJsonFiel(jsons[i]);
 	}
 	return t;
 }
-
+*/
 
 function convertJsonFiel(json) //j'ai joué sur la création d'un nouveau obj pour que le tableau initiale ne change pas!
 {
@@ -80,6 +87,26 @@ function convertJsonFiel(json) //j'ai joué sur la création d'un nouveau obj po
 	obj.country=json.country;
 	return obj;
 }
+
+
+
+function convertJsonsFiel(json) //j'ai joué sur la création d'un nouveau obj pour que le tableau initiale ne change pas!
+{
+	console.log(json);
+	
+	var newArray = json.map(function(element){
+		console.log("element in the map  : ");
+		console.log(element);
+		var newElement = convertJsonFiel(element);
+		console.log("element to return  : ");
+		console.log(newElement);
+
+		return newElement;
+	});
+	return newArray;
+}
+
+
 
 
 function Bike(id,name,price,country)

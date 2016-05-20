@@ -16,7 +16,7 @@ request(
     }
   , function (error, response, body) {
       if(response.statusCode == 201){
-        console.log('document saved as: http://mikeal.iriscouch.com/testjs/')
+        console.log('document saved')
       } else {
         console.log('error: '+ response.statusCode)
         console.log(body)

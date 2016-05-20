@@ -32,8 +32,7 @@ app.get('/bikes/reqbyid/:id',function(req, res){
 	var returnbike; 
 	while(i< bikes.length){
 	if(bikes[i].id == req.params.id){
-        	returnbike = bikes[i];
-      		return res.status(200).json(returnbike);
+      		return res.status(200).json(bikes[i]);
         }
 	i++;
 	}
